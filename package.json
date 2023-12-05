@@ -6,8 +6,10 @@
   "scripts": {
     "build": "tsc",
     "lint:fix": "npx eslint src-fix",
+    "start:prod": "node ./dist/server.js",
+    "start:dev": "ts-node-dev --respawn --transpile-only src/server",
     "prettier": "prettier --ignore-path .gitignore --write \"./src/**/*.+(js|ts|json)\"",
-    "prettier:fix":"npx prettier --write src",
+    "prettier:fix": "npx prettier --write src",
     "lint": "eslint src --ignore-path .eslintignore --ext .js,.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -28,7 +30,9 @@
     "@typescript-eslint/parser": "^6.13.1",
     "eslint": "^8.55.0",
     "eslint-config-prettier": "^9.1.0",
+    "nodemon": "^3.0.2",
     "prettier": "^3.1.0",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.2"
   }
 }
