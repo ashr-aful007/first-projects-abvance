@@ -42,13 +42,6 @@ export type Student ={
      localGuardian: LocalGuardian;
      profileImg?: string;
      isActive: 'active' | 'inActive';
-
-
-     
-     
-     
-     
-     
-     
+  
      
 }
