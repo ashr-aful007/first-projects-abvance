@@ -1,4 +1,4 @@
-import Joi from 'joi';
+import Joi from 'joi'
 
 const userNameSchema = Joi.object({
   firstName: Joi.string()
@@ -9,7 +9,7 @@ const userNameSchema = Joi.object({
     .message('First Name must start with a capital letter'),
   middleName: Joi.string().trim(),
   lastName: Joi.string().required(),
-});
+})
 
 const guardianSchema = Joi.object({
   fatherName: Joi.string().required(),
@@ -18,14 +18,14 @@ const guardianSchema = Joi.object({
   motherName: Joi.string().required(),
   motherOccupation: Joi.string().required(),
   motherContactNo: Joi.string().required(),
-});
+})
 
 const localGuardianSchema = Joi.object({
   name: Joi.string().required(),
   occupation: Joi.string().required(),
   contactNo: Joi.string().required(),
   address: Joi.string().required(),
-});
+})
 
 export const studentValidationSchema = Joi.object({
   id: Joi.string().required(),
@@ -50,6 +50,6 @@ export const studentValidationSchema = Joi.object({
   localGuardian: localGuardianSchema.required(),
   profileImg: Joi.string(),
   isActive: Joi.string().valid('active', 'blocked').default('active'),
-});
+})
 
-export default studentValidationSchema;
+// export default studentValidationSchema;

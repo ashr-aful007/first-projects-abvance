@@ -1,27 +1,35 @@
-import { StudentModel } from "../student.model";
-import { Student } from "./student.interface";
+import { Student } from '../student.model'
+import { TStudent } from './student.interface'
 
-//create student 
-const createStudentIntoDB = async(student: Student) =>{
-   const result = await StudentModel.create(student)
-   return result
+//create student
+const createStudentIntoDB = async (studentData: TStudent) => {
+  // const result = await StudentModel.create(student) //static method
+
+  const student = new Student(studentData) //create an instance
+
+  //check user exist or not
+  if (await student.isUserExists(studentData.id)) {
+    throw new Error('User already exists!')
+  }
+
+  const result = await student.save() //built in instance method
+  return result
 }
 
-//get all student 
-const getSllStudentsFromDb = async() =>{
-   const result = await StudentModel.find()
-   return result
+//get all student
+const getSllStudentsFromDb = async () => {
+  const result = await Student.find()
+  return result
 }
 
 //get single student
-const getSingleStudentFromDB = async(id: string) =>{
-   const result = await StudentModel.findOne({id})
-   return result
+const getSingleStudentFromDB = async (id: string) => {
+  const result = await Student.findOne({ id })
+  return result
 }
 
-
 export const StudentServices = {
-     createStudentIntoDB,
-     getSllStudentsFromDb,
-     getSingleStudentFromDB
+  createStudentIntoDB,
+  getSllStudentsFromDb,
+  getSingleStudentFromDB,
 }

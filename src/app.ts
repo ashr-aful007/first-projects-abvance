@@ -1,27 +1,22 @@
 // Import necessary modules
-import express, { Application, Request, Response } from 'express';
-import cors from 'cors';
-import { studentRouts } from './app/modules/student/student.route';
+import express, { Application, Request, Response } from 'express'
+import cors from 'cors'
+import { studentRouts } from './app/modules/student/student.route'
 
 // Create an instance of Express application
-const app: Application = express();
+const app: Application = express()
 
 // Middleware: Enable JSON parsing and CORS
-app.use(express.json());
-app.use(cors());
+app.use(express.json())
+app.use(cors())
 
-
-//application route 
+//application route
 app.use('/api/v1/students', studentRouts)
-
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!')
-});
+})
 
+console.log(process.cwd())
 
-
-console.log(process.cwd());
-
-
-export default app;
+export default app
