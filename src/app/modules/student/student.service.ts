@@ -18,13 +18,13 @@ if( await Student.isUserExists(studentData.id)){
 //   }
 
   const result = await student.save() //built in instance method
-  return result
+  return result;
 }
 
 //get all student
 const getSllStudentsFromDb = async () => {
   const result = await Student.find()
-  return result
+  return result;
 }
 
 //get single student
@@ -33,7 +33,7 @@ const getSingleStudentFromDB = async (id: string) => {
   const result = await Student.aggregate([
     {$match: {id: id}}
   ])
-  return result
+  return result;
 }
 
 //delete student from db
