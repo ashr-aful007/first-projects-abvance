@@ -1,14 +1,9 @@
 import { Schema, model } from 'mongoose'
-import {
-  TGuardian,
-  TLocalGuardian,
-  TStudent,
-  StudentModel,
-  TUsername,
-} from './student/student.interface'
 import validator from 'validator'
 import bcrypt from 'bcrypt';
-import config from '../config';
+import { StudentModel, TGuardian, TLocalGuardian, TStudent, TUsername } from './student.interface';
+import config from '../../config';
+
 
 
 
@@ -96,6 +91,12 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
 
 const studentSchema = new Schema<TStudent, StudentModel>({
   id: { type: String, unique: true },
+  user: {
+    type: Schema.Types.ObjectId,
+    required: [true, 'User id is required'],
+    unique: true,
+    ref: 'User'
+  },
    password: { type: String, required:[true, 'Password is required'],
                maxlength:[20, 'password can not be more then 20']},
   name: {
@@ -113,7 +114,7 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     required: [true, 'Gender is required'],
   },
   dateOfBirth: {
-    type: String,
+    type: Date,
   },
   email: {
     type: String,
@@ -153,11 +154,6 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     trim: true,
   },
   profileImg: { type: String },
-  isActive: {
-    type: String,
-    enum: ['active', 'blocked'],
-    default: 'active',
-  },
   isDeleted: {
      type: Boolean,
      default: false

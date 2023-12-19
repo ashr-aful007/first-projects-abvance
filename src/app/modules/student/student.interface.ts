@@ -1,5 +1,6 @@
+
 import { Promise } from 'mongodb'
-import { Model } from 'mongoose'
+import { Model, Types } from 'mongoose'
 //interface for student
 
 export type TGuardian = {
@@ -27,9 +28,10 @@ export type TLocalGuardian = {
 export type TStudent = {
   id: string
   name: TUsername
+  user: Types.ObjectId;
   password: string
   gender: 'male' | 'female'
-  dateOfBirth?: string
+  dateOfBirth?: Date
   email: string
   contactNo: string
   emergencyContactNo: string
@@ -39,7 +41,6 @@ export type TStudent = {
   guardian: TGuardian
   localGuardian: TLocalGuardian
   profileImg?: string
-  isActive: 'active' | 'inActive'
   isDeleted: boolean
 }
 
