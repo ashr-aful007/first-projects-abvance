@@ -1,4 +1,3 @@
-
 import { Promise } from 'mongodb'
 import { Model, Types } from 'mongoose'
 //interface for student
@@ -28,7 +27,7 @@ export type TLocalGuardian = {
 export type TStudent = {
   id: string
   name: TUsername
-  user: Types.ObjectId;
+  user: Types.ObjectId
   password: string
   gender: 'male' | 'female'
   dateOfBirth?: Date
@@ -44,15 +43,12 @@ export type TStudent = {
   isDeleted: boolean
 }
 
-
-//for creating static 
+//for creating static
 export interface StudentModel extends Model<TStudent> {
   isUserExists(id: string): Promise<TStudent | null>
 }
 
-
-
-//for creating instance 
+//for creating instance
 
 // export type StudentMethod = {
 //   isUserExists(id: string): Promise<TStudent | null>

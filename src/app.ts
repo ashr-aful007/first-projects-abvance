@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // Import necessary modules
-import express, { Application, Request, Response,  } from 'express'
+import express, { Application, Request, Response } from 'express'
 import cors from 'cors'
 import globalErrorHandler from './app/middleware/globalErrorHandler'
 import notFound from './app/middleware/notFound'
@@ -16,17 +16,13 @@ app.use(cors())
 //application route
 app.use('/api/v1', router)
 
-
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!')
 })
 
-
-//error hangling 
+//error hangling
 // eslint-disable-next-line no-unused-vars, no-undef
 app.use(globalErrorHandler)
-app.use(notFound)  
-
-
+app.use(notFound)
 
 export default app

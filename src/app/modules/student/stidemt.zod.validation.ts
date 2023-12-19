@@ -30,12 +30,12 @@ const localGuardianValidationSchema = z.object({
 })
 
 export const studentValidationSchema = z.object({
-   body: z.object({
+  body: z.object({
     password: z.string().max(20),
-    
+
     student: z.object({
       name: userNameValidationSchema,
-      user: z.string().refine((value) => mongoose.Types.ObjectId.isValid(value), {
+      user: z.string().refine(value => mongoose.Types.ObjectId.isValid(value), {
         message: 'Invalid user id',
       }),
       gender: z.enum(['male', 'female', 'other']),
@@ -49,11 +49,10 @@ export const studentValidationSchema = z.object({
       guardian: guardianValidationSchema,
       localGuardian: localGuardianValidationSchema,
       profileImg: z.string().optional(),
-    })
-
-  })
+    }),
+  }),
 })
 
-export const studentValidations ={
-     studentValidationSchema,
+export const studentValidations = {
+  studentValidationSchema,
 }

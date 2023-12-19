@@ -1,12 +1,14 @@
 import { Schema, model } from 'mongoose'
 import validator from 'validator'
-import bcrypt from 'bcrypt';
-import { StudentModel, TGuardian, TLocalGuardian, TStudent, TUsername } from './student.interface';
-import config from '../../config';
-
-
-
-
+import bcrypt from 'bcrypt'
+import {
+  StudentModel,
+  TGuardian,
+  TLocalGuardian,
+  TStudent,
+  TUsername,
+} from './student.interface'
+import config from '../../config'
 
 const userNameSchema = new Schema<TUsername>({
   firstName: {
@@ -95,10 +97,13 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     type: Schema.Types.ObjectId,
     required: [true, 'User id is required'],
     unique: true,
-    ref: 'User'
+    ref: 'User',
   },
-   password: { type: String, required:[true, 'Password is required'],
-               maxlength:[20, 'password can not be more then 20']},
+  password: {
+    type: String,
+    required: [true, 'Password is required'],
+    maxlength: [20, 'password can not be more then 20'],
+  },
   name: {
     type: userNameSchema,
     required: [true, 'Student Name is required'],
@@ -155,55 +160,51 @@ const studentSchema = new Schema<TStudent, StudentModel>({
   },
   profileImg: { type: String },
   isDeleted: {
-     type: Boolean,
-     default: false
-  }
+    type: Boolean,
+    default: false,
+  },
 })
-
 
 // pre save middleware/ hook : will work on create()  save()
 studentSchema.pre('save', async function (next) {
   // console.log(this, 'pre hook : we will save  data');
   // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const user = this; // doc
+  const user = this // doc
   // hashing password and save into DB
   user.password = await bcrypt.hash(
     user.password,
     Number(config.bcrypt_salt_rounds),
-  );
-  next();
-});
-
+  )
+  next()
+})
 
 //post save middleware /hook
-studentSchema.post('save', function(doc, next){
-   doc.password=''
-   next()
+studentSchema.post('save', function (doc, next) {
+  doc.password = ''
+  next()
 })
 
 //Query Middleware
-studentSchema.pre('find', function(next){
-    this.find({isDeleted: {$ne: true}});
-    next()
+studentSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } })
+  next()
 })
-//middleware for findOne 
-studentSchema.pre('findOne', function(next){
-    this.find({isDeleted: {$ne: true}});
-    next()
+//middleware for findOne
+studentSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } })
+  next()
 })
-//middleware for aggregate 
-studentSchema.pre('aggregate', function(next){
-    this.pipeline().unshift({$match: {isDeleted: {$ne: true}}})
-    next()
+//middleware for aggregate
+studentSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } })
+  next()
 })
-
 
 //creating a custom static method
 studentSchema.statics.isUserExists = async function (id: string) {
-  const existingUser = await Student.findOne({ id });
-  return existingUser;
-};
-
+  const existingUser = await Student.findOne({ id })
+  return existingUser
+}
 
 // studentSchema.methods.isUserExists = async function (id: string) {
 //   const existingUser = await Student.findOne({ id })
