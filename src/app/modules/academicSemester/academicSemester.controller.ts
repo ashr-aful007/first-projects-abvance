@@ -17,6 +17,7 @@ const createAcademicSemester = catchAsync(async (req, res) => {
 })
 
 
+//get all semester 
 const getAllAcadmicSemesterForAdmin = catchAsync(async(req, res) =>{
 
         const result = await AcademicSemesterServices.getAllAcademicSemester()
@@ -30,11 +31,27 @@ const getAllAcadmicSemesterForAdmin = catchAsync(async(req, res) =>{
 })
 
 
+//get single semester 
+const getSingleSemester = catchAsync(async(req, res) =>{
+
+        const {userId} = req.params
+
+      const result = await AcademicSemesterServices.getSingleSemester(userId)
+
+      sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Semester data',
+        data: result,
+      })
+})
+
 
 
 
 
 export const AcademicSemesterControllers = {
   createAcademicSemester,
-  getAllAcadmicSemesterForAdmin
+  getAllAcadmicSemesterForAdmin,
+  getSingleSemester
 }

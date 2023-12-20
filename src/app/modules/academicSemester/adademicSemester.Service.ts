@@ -22,6 +22,11 @@ const getAllAcademicSemester = async() =>{
 }
 
 
+const getSingleSemester = async(_id: string) =>{
+     const result = await AcademicSemester.findById(_id)
+     return result
+}
+
 
 
 
@@ -29,5 +34,6 @@ const getAllAcademicSemester = async() =>{
 
 export const AcademicSemesterServices = {
   createAcademicSemesterIntoDB,
-  getAllAcademicSemester
+  getAllAcademicSemester,
+  getSingleSemester
 }
