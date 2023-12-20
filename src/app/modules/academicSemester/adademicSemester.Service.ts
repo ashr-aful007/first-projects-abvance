@@ -27,6 +27,12 @@ const getSingleSemester = async(_id: string) =>{
      return result
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const updateSemesterData = async(_id: string, payload: any) =>{
+      const result = await AcademicSemester.findByIdAndUpdate(_id, payload)
+      return result
+}
+
 
 
 
@@ -35,5 +41,6 @@ const getSingleSemester = async(_id: string) =>{
 export const AcademicSemesterServices = {
   createAcademicSemesterIntoDB,
   getAllAcademicSemester,
-  getSingleSemester
+  getSingleSemester,
+  updateSemesterData
 }

@@ -15,4 +15,6 @@ router.get('/getAll-semester', AcademicSemesterControllers.getAllAcadmicSemester
 
 //single semester 
 router.get('/:userId', AcademicSemesterControllers.getSingleSemester)
+//update semester 
+router.put('/:userId', AcademicSemesterControllers.updateSemesterInfo)
 export const AcademicSemesterRouts = router
