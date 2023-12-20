@@ -18,6 +18,10 @@ const moduleRoutes = [
     path: '/academic-semesters',
     router: AcademicSemesterRouts,
   },
+  // {
+  //   path: '/semesters',
+
+  // }
 ]
 
 // router.use('/user', UserRoutes);

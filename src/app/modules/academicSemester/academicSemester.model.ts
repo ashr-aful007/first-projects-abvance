@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
-import { TAcademicSemester } from './academicSemester'
 import { Months, semesterCode, semesterName } from './academicSemester.constant'
+import { TAcademicSemester } from './academicSemester.interface'
 
 const acdemicSemesterSchema = new Schema<TAcademicSemester>(
   {
@@ -35,6 +35,7 @@ const acdemicSemesterSchema = new Schema<TAcademicSemester>(
 )
 
 
+//check in DB semester Exist or not 
 acdemicSemesterSchema.pre('save', async function(next){
       const isSemesterExists = await AcademicSemester.findOne({
            name: this.name,
