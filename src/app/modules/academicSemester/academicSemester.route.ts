@@ -16,5 +16,17 @@ router.get('/getAll-semester', AcademicSemesterControllers.getAllAcadmicSemester
 //single semester 
 router.get('/:userId', AcademicSemesterControllers.getSingleSemester)
 //update semester 
-router.put('/:userId', AcademicSemesterControllers.updateSemesterInfo)
+router.put('/:userId',
+    validateRequest(AcademicSemsterValidations
+      .updateAcademicSemesterValidationSchema),
+ AcademicSemesterControllers.updateSemesterInfo)
+
+
+
+
+
+
+
+ 
+
 export const AcademicSemesterRouts = router

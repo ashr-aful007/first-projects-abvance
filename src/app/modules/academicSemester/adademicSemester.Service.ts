@@ -29,6 +29,13 @@ const getSingleSemester = async(_id: string) =>{
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const updateSemesterData = async(_id: string, payload: any) =>{
+
+      if(   payload.name &&
+            payload.code &&
+            academicSemesterNameCodeMapper[payload.name] !== payload.code){
+            throw new Error('Invalid Semester Code')
+       }
+
       const result = await AcademicSemester.findByIdAndUpdate(_id, payload)
       return result
 }
