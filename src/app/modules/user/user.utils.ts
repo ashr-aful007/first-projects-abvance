@@ -24,8 +24,6 @@ const findLastStudentId = async () =>{
 
 
 
-
-
   // yer semesterCode 4 digits number
  export const generateStudentId = async(payload: TAcademicSemester | null) =>{
 
