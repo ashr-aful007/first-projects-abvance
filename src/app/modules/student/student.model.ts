@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 import { Schema, model } from 'mongoose'
 import validator from 'validator'
 import bcrypt from 'bcrypt'
@@ -9,6 +10,7 @@ import {
   TUsername,
 } from './student.interface'
 import config from '../../config'
+
 
 const userNameSchema = new Schema<TUsername>({
   firstName: {
@@ -92,7 +94,7 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
 })
 
 const studentSchema = new Schema<TStudent, StudentModel>({
-  id: { type: String, unique: true },
+  id: { type: String, unique: true, required: true },
   user: {
     type: Schema.Types.ObjectId,
     required: [true, 'User id is required'],
@@ -101,7 +103,6 @@ const studentSchema = new Schema<TStudent, StudentModel>({
   },
   password: {
     type: String,
-    required: [true, 'Password is required'],
     maxlength: [20, 'password can not be more then 20'],
   },
   name: {
@@ -158,6 +159,10 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     required: [true, 'Local Guardian details are required'],
     trim: true,
   },
+  admissionSemester:{
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicSemester'
+  },
   profileImg: { type: String },
   isDeleted: {
     type: Boolean,
@@ -165,18 +170,35 @@ const studentSchema = new Schema<TStudent, StudentModel>({
   },
 })
 
+
+
 // pre save middleware/ hook : will work on create()  save()
+
 studentSchema.pre('save', async function (next) {
-  // console.log(this, 'pre hook : we will save  data');
-  // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const user = this // doc
-  // hashing password and save into DB
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bcrypt_salt_rounds),
-  )
-  next()
-})
+  try {
+
+    const user = this
+
+    // Check if the password is present and not empty
+    if (!user.password) {
+      throw new Error('Password is required.');
+    }
+
+    // Check if config.bcrypt_salt_rounds is a valid number
+    const saltRounds = Number(config.bcrypt_salt_rounds);
+    if (isNaN(saltRounds) || saltRounds <= 0) {
+      throw new Error('Invalid bcrypt salt rounds configuration.');
+    }
+
+    // Hash the password and save it into DB
+    user.password = await bcrypt.hash(user.password, saltRounds);
+
+    next();
+  } catch (error: any) {
+    // Handle the error
+    next(error);
+  }
+});
 
 //post save middleware /hook
 studentSchema.post('save', function (doc, next) {

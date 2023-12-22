@@ -1,12 +1,15 @@
-import { NextFunction } from 'express'
 import config from '../../config'
 import { TStudent } from '../student/student.interface'
 import { Student } from '../student/student.model'
 import { Tuser } from './user.interface'
 import { User } from './user.model'
+import { TAcademicSemester } from '../academicSemester/academicSemester.interface'
+import { AcademicSemester } from '../academicSemester/academicSemester.model'
+import { generateStudentId } from './user.utils'
+
 
 //create student
-const createUserIntoDB = async (password: string, studentData: TStudent) => {
+const createUserIntoDB = async (password: string, payload: TStudent) => {
   //set student role
   const userData: Partial<Tuser> = {}
 
@@ -16,17 +19,22 @@ const createUserIntoDB = async (password: string, studentData: TStudent) => {
   //set student role
   userData.role = 'student'
 
-  //set manually generated id
-  userData.id = '202010098'
 
+
+
+
+   //find academic semseter info 
+   const admissionSemester: TAcademicSemester | null = await AcademicSemester.findById(payload.admissionSemester)
+
+     userData.id = generateStudentId(admissionSemester)
   //create a user
   const newUser = await User.create(userData)
 
   if (Object.keys(newUser).length) {
-    studentData.id = newUser.id //embedding
-    studentData.user = newUser._id //Reference to the user document
-
-    const newStudent = await Student.create(studentData)
+    payload.id = newUser.id //embedding
+    payload.user = newUser._id //Reference to the user document
+    //create a student with Reference with user ID
+    const newStudent = await Student.create(payload)
 
     return newStudent
   }
