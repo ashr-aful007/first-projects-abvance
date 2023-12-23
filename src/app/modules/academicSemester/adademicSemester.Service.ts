@@ -18,12 +18,26 @@ const createAcademicSemesterIntoDB = async (payload: TAcademicSemester) => {
 
 const getAllAcademicSemester = async() =>{
       const result = await AcademicSemester.find()
+           .populate('admissionSemester')
+           .populate({
+             path: 'academicDepartment',
+               populate: {
+                  path: 'academicFaculty'
+               }
+           })
       return result
 }
 
 
 const getSingleSemester = async(_id: string) =>{
-     const result = await AcademicSemester.findById(_id)
+     const result = await AcademicSemester.findById(_id) 
+          .populate('admissionSemester')
+          .populate({
+             path: 'academicDepartment',
+           populate: {
+            path: 'academicFaculty'
+          }
+     })
      return result
 }
 

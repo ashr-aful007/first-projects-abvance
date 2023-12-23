@@ -35,6 +35,10 @@ const acdemicSemesterSchema = new Schema<TAcademicSemester>(
 )
 
 
+
+
+
+
 //check in DB semester Exist or not 
 acdemicSemesterSchema.pre('save', async function(next){
       const isSemesterExists = await AcademicSemester.findOne({
