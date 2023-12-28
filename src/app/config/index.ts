@@ -7,4 +7,5 @@ export default {
   databaseUrl: process.env.DATABASE_URL,
   bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
   default_password: process.env.DEFAULT_PASS,
+  node_env: process.env.NODE_ENV
 }
